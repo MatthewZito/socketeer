@@ -46,14 +46,16 @@ E_ARGS=88
 E_GIT=89
 
 LATEST_COMMIT_FILE='.commit_id'
+UTIL_FILE='utils.sh'
+EXE_LOC=$(dirname "$0")
 
-source utils.sh
+source $EXE_LOC/$UTIL_FILE
 
 # nav to repository, reset to HEAD
 hard_reset() {
   local repository_dir=$1
 
-  pushd $repository_dir 1> /dev/null
+  pushd $repository_dir &>/dev/null
   [[ $? != 0 ]] && panic $E_FILENOTFOUND "Repository not found at $repository_dir"
 
   git reset --hard HEAD 

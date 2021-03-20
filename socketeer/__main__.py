@@ -1,9 +1,9 @@
-from .task_runner import task_runner
+from .observer import observer
 from .utils.log import log
 
 if __name__ == '__main__':
   try:
-    task_runner.poll()
+    observer.poll()
 
   except KeyboardInterrupt as ex:
     log(
@@ -14,5 +14,5 @@ if __name__ == '__main__':
   except Exception as ex:
     log(
       level='error', 
-      message=f'An exception occurred. See: {ex}'
+      message=ex
     )
