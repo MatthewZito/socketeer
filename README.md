@@ -6,6 +6,8 @@
 
 Socketeer observes a target git repository for commit SHA changes. When the main branch's HEAD changes, a message is broadcast to all deployments (task-runners), which then execute a series of pre-defined tasks. The runners then report the results of these tasks back to the dispatcher.
 
+![Architecture Control Flow](https://github.com/MatthewZito/socketeer/blob/master/docs/socketeer.png)
+
 ### Observer
 
 The observer component polls the target repository, notifying a dispatch service of new commit SHAs. 
