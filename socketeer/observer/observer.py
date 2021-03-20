@@ -13,7 +13,7 @@ from ..utils.io import broadcast
 
 from ..utils.constants import \
   ROOT_SCRIPTS_DIR as root, \
-  UPDATE_REPO as script, \
+  GET_LATEST as script, \
   COMMIT_SHA as commit, \
   INTERVAL as interval
 
