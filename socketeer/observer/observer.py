@@ -66,8 +66,7 @@ def poll ():
 			
 			except socket.error as ex:
 				raise ConnectionError(
-					'Unable to ping dispatch srv ' + 
-					ex
+					'Unable to ping dispatch srv'
 				)
       
 			if response == msg['OK']:
