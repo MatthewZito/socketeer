@@ -1,17 +1,17 @@
-import socket
 import errno
+import socket
 import threading
 
 from ..utils.constants import \
-    RANGE_INIT as port_range, \
-    MESSAGES as msg
+    MESSAGES as msg, \
+    RANGE_INIT as port_range
 
-from ..utils.io import broadcast, log
 from ..thread_mon import dispatch_chk
+from ..utils.io import broadcast, log
 
 from .cli import get_args
-from .Threading_TCP_srv import ThreadingTCPSrv
 from .Task_handler import TaskHandler
+from .Threading_TCP_srv import ThreadingTCPSrv
 
 def serve():
     args = get_args()
@@ -43,8 +43,7 @@ def serve():
                     runner_port = runner_port + attempts
                     continue
 
-                else:
-                    raise e
+                raise e
         else:
             raise Exception('Exhausted allocated port range')
 

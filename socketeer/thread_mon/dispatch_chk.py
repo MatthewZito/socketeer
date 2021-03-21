@@ -1,8 +1,8 @@
-import time
 import socket
+import time
 
-from ..utils.io import broadcast, log
 from ..utils.constants import MESSAGES as msg
+from ..utils.io import broadcast, log
 
 def dispatch_chk(srv):
     """Check if dispatch service is live. If not, shut down given it may

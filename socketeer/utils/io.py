@@ -1,11 +1,15 @@
 import socket
 
-"""
-Open a socket conn on given host, port and send the provided payload
-
-Await the buffered response and return it
-"""
 def broadcast(host, port, payload):
+    """Open a socket conn on given host, port and send the provided payload
+
+    Await the buffered response and return it
+
+    Args:
+        host (str): hostname on which socket conn will be opened
+        port (int): port on which socket conn will be opened
+        payload (str): data to send via socket conn
+    """
     s = socket.socket(
         socket.AF_INET,
         socket.SOCK_STREAM

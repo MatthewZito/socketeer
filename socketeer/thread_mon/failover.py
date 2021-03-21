@@ -1,9 +1,9 @@
-from time import sleep
+import time
 
-from ..utils.io import log
 from ..dispatcher.deployments import deploy_tasks
+from ..utils.io import log
 
-""" Failover redundancy helpers """
+# Failover redundancy helpers
 
 def manage_tasks_pool(srv, runner):
     """Handle dead threads.
@@ -42,4 +42,4 @@ def redistribute_orphan_task(srv):
             )
 
             deploy_tasks(srv, sha)
-            sleep(6)
+            time.sleep(6)

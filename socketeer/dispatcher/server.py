@@ -1,13 +1,12 @@
-from threading import Thread
+"""Serve the Dispatch Srv; handle Task-Runner threads and Observer messages"""
+import threading
 
-from ..utils.io import log
-from ..utils.constants import MESSAGES as msg
-
-from ..thread_mon.failover import \
-      manage_tasks_pool, \
-      redistribute_orphan_task
+from ..thread_mon.failover import redistribute_orphan_task
 
 from ..thread_mon.liveness import check_liveness
+
+from ..utils.constants import MESSAGES as msg
+from ..utils.io import log
 
 from .cli import get_args
 from .handler import DispatchHandler
@@ -33,13 +32,13 @@ def serve():
     )
 
     # spawn thread to manage liveness checks
-    heart_beat = Thread(
+    heart_beat = threading.Thread(
         target=check_liveness,
         args=(srv,)
     )
 
     # spawn thread to redistribute orphaned tasks
-    redistributor = Thread(
+    redistributor = threading.Thread(
         target=redistribute_orphan_task,
         args=(srv,)
     )

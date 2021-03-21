@@ -1,4 +1,4 @@
-from socketserver import ThreadingMixIn, TCPServer
+from socketserver import TCPServer, ThreadingMixIn
 
 class ThreadingTCPSrv(ThreadingMixIn, TCPServer):
     """Socket server instance for handling multi-threaded concurrency

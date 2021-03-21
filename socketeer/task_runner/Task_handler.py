@@ -1,27 +1,29 @@
-from socketserver import BaseRequestHandler
-from subprocess import check_output
-from re import compile
-from time import time
-from os.path import join
+import os
+import re
+import socketserver
+import subprocess
+import time
 import unittest
 
-from ..utils.io import broadcast, log
 from ..utils.constants import \
     MESSAGES as msg, \
-    TMP_RESULTS as tmp_f, \
+    PRE_TASK as script, \
     ROOT_SCRIPTS_DIR as root, \
-    PRE_TASK as script
+    TMP_RESULTS as tmp_f
+from ..utils.io import broadcast, log
 
-class TaskHandler(BaseRequestHandler):
+class TaskHandler(socketserver.BaseRequestHandler):
     """Handle task requests from dispatch
 
     Args:
         BaseRequestHandler
     """
 
-    cmd_regexp = compile(r'(\w+)(:.*)*')
+    cmd_regexp = re.compile(r'(\w+)(:.*)*')
 
     def handle_request(self):
+        """Request handler for a given task-runner instance / thread
+        """
         self.data = self.request.recv(1024).strip()
 
         cmd_grp = self.cmd_regexp.match(self.data)
@@ -31,15 +33,15 @@ class TaskHandler(BaseRequestHandler):
             self.request.sendall('Invalid command')
             return
 
-        if cmd == 'PING':
+        if cmd == msg['PING']:
             log(
                 level='warn',
                 message='Liveness check received; responding...'
             )
-            self.server.last_conn = time()
+            self.server.last_conn = time.time()
             self.request.sendall(msg['ACK'])
 
-        elif cmd == 'RUNTASK':
+        elif cmd == msg['RUNTASK']:
             log(
                 level='warn',
                 message=f'Task received; thread busy? {self.server.busy}'
@@ -66,9 +68,15 @@ class TaskHandler(BaseRequestHandler):
 
 
     def execute_tasks(self, sha, repo_dir):
+        """Execute tasks for given commitexecute_tasks
+
+        Args:
+            sha (str): commit sha representing state at which to execute tasks
+            repo_dir (str): path to target repository
+        """
         script_path = f'{root}/{script}'
         # update repository clone
-        stdout = check_output([
+        stdout = subprocess.check_output([
             script_path,
             repo_dir,
             sha
@@ -79,7 +87,7 @@ class TaskHandler(BaseRequestHandler):
             message=stdout
         )
 
-        tasks_dir = join(repo_dir, 'tasks')
+        tasks_dir = os.path.join(repo_dir, 'tasks')
         suite = unittest.TestLoader().discover(tasks_dir)
         results_f = open(tmp_f, 'w')
         unittest.TextTestRunner(results_f).run(suite)

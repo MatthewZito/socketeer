@@ -1,11 +1,11 @@
-from re import compile, findall
-from os import path, makedirs
+"""This module provides a request handler for the Dispatch Srv"""
+import os
+import re
+import socketserver
 
-from socketserver import BaseRequestHandler
-
-from ..utils.io import log
 from ..utils.constants import MESSAGES as msg, \
     TASK_RESULTS as result_f
+from ..utils.io import log
 
 from .deployments import deploy_tasks
 
@@ -20,17 +20,19 @@ def log_info(directive):
         message=f'recv {directive} directive'
     )
 
-class DispatchHandler(BaseRequestHandler):
+class DispatchHandler(socketserver.BaseRequestHandler):
     """
     A request handler for the dispatch srv
 
     Dispatch task runners against incoming commit SHAs and handle results thereof
     """
-    cmd_regexp = compile(r'(\w+)(:.+)*')
+    cmd_regexp = re.compile(r'(\w+)(:.+)*')
 
     BUF_SIZE = 1024
 
     def handler(self):
+        """Handle requests from Observer, Task-Runner threads
+        """
         self.data = self.request.recv(self.BUF_SIZE).strip()
         cmd_grp = self.cmd_regexp.match(self.data)
 
@@ -70,7 +72,7 @@ class DispatchHandler(BaseRequestHandler):
         """
         log_info('register')
 
-        host, port = findall(r':(\w*)', payload)
+        host, port = re.findall(r':(\w*)', payload)
 
         self.server.runners.append({
             'host': host,
@@ -116,8 +118,8 @@ class DispatchHandler(BaseRequestHandler):
 
         del self.server.dispatched_commits[commit_sha]
 
-        if not path.exists(result_f):
-            makedirs(result_f)
+        if not os.path.exists(result_f):
+            os.makedirs(result_f)
 
         with open(result_f + '/' + commit_sha, 'w') as f:
             data = '\n'.join(self.data.split(msg['DELIMITER'])[3:])

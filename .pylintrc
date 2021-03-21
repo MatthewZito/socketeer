@@ -9,3 +9,11 @@ unsafe-load-any-extension=no
 indent-string="    "
 expected-line-ending-format=LF
 no-space-check=empty-line
+
+[BASIC]
+
+good-names=e,ex,f,s,t
+
+[SIMILARITIES]
+
+min-similarity-lines=300

@@ -1,29 +1,30 @@
+"""The Observer module watches a target git repository for changes
+and adds commit ids to the tasks pool by communicating with the Dispatch Srv
+on-change.
+"""
+import os
 import socket
 import subprocess
-import sys
 import time
 
-from os.path import isfile
-
-from ..utils.io import broadcast, log
-
 from ..utils.constants import \
-    ROOT_SCRIPTS_DIR as root, \
-    GET_LATEST as script, \
     COMMIT_SHA as commit, \
+    GET_LATEST as script, \
     INTERVAL as interval, \
-    MESSAGES as msg
+    MESSAGES as msg, \
+    ROOT_SCRIPTS_DIR as root
+from ..utils.io import broadcast, log
 
 from .cli import get_args
 
-"""Poll the target repository at *interval* of seconds
-
-Check for new commits to target repository and notify dispatch srv of changes
-by way of new commit SHAs
-
-Broadcast notifications to dispatch srv with said commit SHA to initialize tests
-"""
 def poll ():
+    """Poll the target repository at *interval* of seconds
+
+    Check for new commits to target repository and notify dispatch srv of changes
+    by way of new commit SHAs
+
+    Broadcast notifications to dispatch srv with said commit SHA to initialize tests
+    """
     args = get_args()
     host, port = args.dispatch.split(msg['DELIMITER'])
     repo = args.repository
@@ -41,19 +42,19 @@ def poll ():
 
         except OSError as ex:
             if ex.errno == 2:
-                raise FileNotFoundError(f'{script_path} was not found')
+                raise FileNotFoundError(f'{script_path} was not found') from ex
             raise Exception(
                 'An I/O error occurred ' +
                 ex
-            )
+            ) from ex
 
         except subprocess.CalledProcessError as ex:
             raise Exception(
                 'Unable to update and observe repository ' +
                 ex.output.decode('utf-8', errors='ignore')
-            )
+            ) from ex
 
-        if isfile(commit):
+        if os.path.isfile(commit):
             # repository state has changed
             try:
                 # check dispatch srv liveness
@@ -64,9 +65,9 @@ def poll ():
                 )
 
             except socket.error as ex:
-                raise ConnectionError(
+                raise ConnectionError (
                     'Unable to ping dispatch srv'
-                )
+                ) from ex
 
             if response == msg['OK']:
                 # dispatch srv is live
@@ -88,7 +89,7 @@ def poll ():
 
                     log(
                         level='success',
-                        message=f'Dispatch directive successfully broadcast'
+                        message='Dispatch directive successfully broadcast'
                     )
 
             else:

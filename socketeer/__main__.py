@@ -1,5 +1,3 @@
-from argparse import ArgumentParser
-
 from .observer import observer
 from .utils.io import log
 
@@ -9,7 +7,7 @@ if __name__ == '__main__':
 
     except KeyboardInterrupt as ex:
         log(
-            level='warn', 
+            level='warn',
             message='Execution cancelled by user'
         )
 

@@ -1,5 +1,6 @@
-from time import sleep
+import time
 
+from ..utils.constants import MESSAGES as msg
 from ..utils.io import broadcast, log
 
 def deploy_tasks(srv, commit_sha):
@@ -19,10 +20,10 @@ def deploy_tasks(srv, commit_sha):
             response = broadcast(
                 runner['host'],
                 int(runner['port']),
-                'RUNTASK:' + commit_sha
+                msg['RUNTASK'] + msg['DELIMITER'] + commit_sha
             )
 
-            if response == 'OK':
+            if response == msg['OK']:
                 log(
                     level='success',
                     message='Adding SHA ' + commit_sha
@@ -34,4 +35,4 @@ def deploy_tasks(srv, commit_sha):
                     srv.pending_commits.remove(commit_sha)
                 return
 
-        sleep(9)
+        time.sleep(9)

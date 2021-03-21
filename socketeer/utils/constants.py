@@ -1,9 +1,9 @@
 from os.path import abspath
 
-ROOT_SCRIPTS_DIR = abspath('scripts')
+COMMIT_SHA = '.commit_id'
 GET_LATEST = 'get_latest.sh'
 PRE_TASK = 'pre_task.sh'
-COMMIT_SHA = '.commit_id'
+ROOT_SCRIPTS_DIR = abspath('scripts')
 TASK_RESULTS = '.task_results'
 TMP_RESULTS = 'tmp_results'
 
@@ -17,5 +17,7 @@ MESSAGES = {
     'REGISTER': 'REGISTER',
     'OK': 'OK',
     'DELIMITER': ':',
-    'ACK': 'ACK'
+    'ACK': 'ACK',
+    'PING': 'PING',
+    'RUNTASK': 'RUNTASK'
 }
