@@ -11,16 +11,16 @@ main() {
   fi
 
   pushd $repository_dir &>/dev/null
-  [[ $? != 0 ]] && panic $E_FILENOTFOUND "Repository not found at $repository_dir"
+  [[ $? -ne 0 ]] && panic $E_FILENOTFOUND "Repository not found at $repository_dir"
 
   git clean -d -f -x 2>/dev/null
-  [[ $? != 0 ]] && panic $E_GIT "Failed to clean repository"
+  [[ $? -ne 0 ]] && panic $E_GIT "Failed to clean repository"
 
   git pull
-  [[ $? != 0 ]] && panic $E_GIT "Failed to pull repository history"
+  [[ $? -ne 0 ]] && panic $E_GIT "Failed to pull repository history"
 
   git reset --hard "$commit_sha"
-  [[ $? != 0 ]] && panic $E_GIT "Failed to checkout given commit SHA"
+  [[ $? -ne 0 ]] && panic $E_GIT "Failed to checkout given commit SHA"
 
 }
 

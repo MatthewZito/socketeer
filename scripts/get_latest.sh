@@ -25,7 +25,7 @@ main() {
 
   # update and get latest; eval SHA diff
   git pull
-  [[ $? != 0 ]] && panic $E_GIT "Failed to pull latest"
+  [[ $? -ne 0 ]] && panic $E_GIT "Failed to pull latest"
 
   new_commit_id=$(get_latest)
 
@@ -56,17 +56,19 @@ hard_reset() {
   local repository_dir=$1
 
   pushd $repository_dir &>/dev/null
-  [[ $? != 0 ]] && panic $E_FILENOTFOUND "Repository not found at $repository_dir"
+  [[ $? -ne 0 ]] && panic $E_FILENOTFOUND "Repository not found at $repository_dir"
 
-  git reset --hard HEAD 
-  [[ $? != 0 ]] && panic $E_GIT "Failed to reset state to HEAD"
+  git reset --hard HEAD &>/dev/null
+  [[ $? -ne 0 ]] && panic $E_GIT "Failed to reset state to HEAD"
+
+  return 0
 }
 
 # fetch most recent commit SHA
 get_latest() {
   latest_commit=$(git log -n1 --format=format:%H)
 
-  [[ $? != 0 ]] && panic $E_GIT "Failed to log Git history"
+  [[ $? -ne 0 ]] && panic $E_GIT "Failed to log Git history"
 
   echo $latest_commit
 }

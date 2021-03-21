@@ -3,7 +3,7 @@ import subprocess
 import sys
 import time
 
-from os.path import relpath, isfile
+from os.path import isfile
 
 from ..utils.io import broadcast, log
 
@@ -42,7 +42,7 @@ def poll ():
 
 		except OSError as ex:
 			if ex.errno == 2:
-				raise FileNotFoundError(f'{relpath(script_path)} was not found')
+				raise FileNotFoundError(f'{script_path} was not found')
 			raise Exception(
 				'An I/O error occurred ' + 
 				ex
