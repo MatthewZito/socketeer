@@ -1,0 +1,11 @@
+[MASTER]
+
+persistent=no
+jobs=4
+unsafe-load-any-extension=no
+
+[FORMAT]
+
+indent-string="    "
+expected-line-ending-format=LF
+no-space-check=empty-line

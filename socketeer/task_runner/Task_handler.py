@@ -30,7 +30,7 @@ class TaskHandler(BaseRequestHandler):
         if not cmd:
             self.request.sendall('Invalid command')
             return
-        
+
         if cmd == 'PING':
             log(
                 level='warn',
@@ -46,7 +46,7 @@ class TaskHandler(BaseRequestHandler):
             )
             if self.server.busy:
                 self.request.sendall('BUSY')
-            
+
             # thread not busy, proceed
             else:
                 self.request.sendall('OK')
@@ -60,7 +60,7 @@ class TaskHandler(BaseRequestHandler):
                     sha,
                     self.server.repo_dir
                 )
-        
+
         else:
             self.request.sendall('Invalid command')
 
