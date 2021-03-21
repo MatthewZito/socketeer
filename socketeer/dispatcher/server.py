@@ -1,6 +1,7 @@
 from threading import Thread
 
 from ..utils.io import log
+from ..utils.constants import MESSAGES as msg
 
 from ..thread_mon.failover import \
   	manage_tasks_pool, \
@@ -14,7 +15,7 @@ from .Threading_TCP_srv import ThreadingTCPSrv
 
 def serve():
 	args = get_args()
-	host, port = args.dispatch.split(':')
+	host, port = args.dispatch.split(msg['DELIMITER'])
 	
 	srv = ThreadingTCPSrv(
 		(host, int(port)),

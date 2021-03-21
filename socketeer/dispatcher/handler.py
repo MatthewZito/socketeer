@@ -84,7 +84,7 @@ class DispatchHandler(BaseRequestHandler):
 	def dispatch_results(self, payload):
 		log_info('results')
 
-		commit_sha, res = payload[1:].split(':')
+		commit_sha, res = payload[1:].split(msg['DELIMITER'])
 		msg_len = int(res)
 
 		remaining_buffer = self.BUF_SIZE - (len('results') + len(commit_sha) + len(res) + 3)
@@ -98,7 +98,7 @@ class DispatchHandler(BaseRequestHandler):
 			makedirs(result_f)
 
 		with open(result_f + '/' + commit_sha, 'w') as f:
-			data = '\n'.join(self.data.split(':')[3:])
+			data = '\n'.join(self.data.split(msg['DELIMITER'])[3:])
 			f.write(data)
 
 		self.request.sendall(msg['OK'])

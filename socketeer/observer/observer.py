@@ -26,7 +26,7 @@ Broadcast notifications to dispatch srv with said commit SHA to initialize tests
 """
 def poll ():
 	args = get_args()
-	host, port = args.dispatch.split(':')
+	host, port = args.dispatch.split(msg['DELIMITER'])
 	repo = args.repository
 
 	script_path = f'{root}/{script}'
@@ -75,7 +75,7 @@ def poll ():
 				commit_sha = ''
 				with open(commit, 'r') as f:
 					commit_sha = f.readline()
-					# initialize tests
+					# initialize tasks
 					response = broadcast(
 						host,
 						int(port),

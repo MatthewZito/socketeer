@@ -23,7 +23,7 @@ def check_liveness(srv):
 					'PING'
 				)
 
-				if response != 'OK':
+				if response != msg['ACK']:
 					log(
 						level='warn',
 						message=f'Thread at {host}:{port} failed liveness check. Removing from pool and reallocating task...'
