@@ -3,6 +3,12 @@ from time import sleep
 from ..utils.io import broadcast, log
 
 def deploy_tasks(srv, commit_sha):
+	"""Deploy tasks for given commit shasum
+
+	Args:
+		srv: dispatch server instance 
+		commit_sha (str): commit shasum / id correlated to given task
+	"""
 	while True:
 		log(
 			level='warn',
@@ -21,7 +27,7 @@ def deploy_tasks(srv, commit_sha):
 					level='success',
 					message='Adding SHA ' + commit_sha
 				)
-
+				# record which thread is handling given shasum task
 				srv.dispatched_commits[commit_sha] = runner
 
 				if commit_sha in srv.pending_commits:

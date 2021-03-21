@@ -1,4 +1,13 @@
 #!/usr/bin/env bash
+#filename       :pre_task.sh
+#desc           :update local history and checkout provided commit via shasum
+#author         :Matthew Zito (goldmund)
+#created        :03/2021
+#version        :1.0.0
+#usage          :n/a - automated invocation
+#environment    :bash 5.0.17
+#===============================================================================
+
 
 IFS=$'\n'
 

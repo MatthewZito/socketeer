@@ -1,6 +1,12 @@
 from socketserver import ThreadingMixIn, TCPServer
 
 class ThreadingTCPSrv(ThreadingMixIn, TCPServer):
+    """Socket server instance for handling multi-threaded concurrency
+
+    Args:
+        ThreadingMixIn (tuple)
+        TCPServer (class): Socket-server base class
+    """
     # track task runner pool
     runners = []
     # flag - indicates to threads whether srv is live

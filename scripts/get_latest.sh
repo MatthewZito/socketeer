@@ -3,8 +3,8 @@
 #desc           :update local history and persist latest commit id, if changed
 #author         :Matthew Zito (goldmund)
 #created        :03/2021
-#version        :1.0.0
-#usage          :n/a
+#version        :1.0.1
+#usage          :n/a - automated invocation
 #environment    :bash 5.0.17
 #===============================================================================
 

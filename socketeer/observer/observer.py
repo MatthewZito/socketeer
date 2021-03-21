@@ -16,8 +16,7 @@ from ..utils.constants import \
 
 from .cli import get_args
 
-"""
-Poll the target repository at *interval* of seconds
+"""Poll the target repository at *interval* of seconds
 
 Check for new commits to target repository and notify dispatch srv of changes
 by way of new commit SHAs
@@ -57,7 +56,7 @@ def poll ():
 		if isfile(commit):
 			# repository state has changed
 			try:
-				# ping dispatch srv
+				# check dispatch srv liveness
 				response = broadcast(
 					host, 
 					int(port),

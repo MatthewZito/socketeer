@@ -10,8 +10,13 @@ from ..utils.constants import MESSAGES as msg, \
 from .deployments import deploy_tasks
 
 def log_info(directive):
+	"""Log warn level message indicating received directive
+
+	Args:
+		directive (str): received directive
+	"""
 	log(
-		level='info',
+		level='warn',
 		message=f'recv {directive} directive'
 	)
 
@@ -52,10 +57,17 @@ class DispatchHandler(BaseRequestHandler):
 
 
 	def dispatch_status_chk(self):
+		"""Respond to status check request
+		"""
 		log_info('status')
 		self.request.sendall(msg['OK'])
 
 	def dispatch_registrar(self, payload):
+		"""Respond to registration request; register new task-runner thread
+
+		Args:
+			payload (str): a payload containing the pending task-runner thread's host, port
+		"""
 		log_info('register')
 		
 		host, port = findall(r':(\w*)', payload)
@@ -68,6 +80,11 @@ class DispatchHandler(BaseRequestHandler):
 		self.request.sendall(msg['OK'])
 
 	def dispatch_tasks(self, payload):
+		"""Fetch commit shasum and deploy task spawn
+
+		Args:
+			payload (str): a payload containing the commit shasum for which to dispatch a new task
+		"""
 		log_info('dispatch')
 
 		commit_sha = payload[1:]
@@ -82,6 +99,11 @@ class DispatchHandler(BaseRequestHandler):
 			)
 
 	def dispatch_results(self, payload):
+		"""Respond to request for task results; write to file
+
+		Args:
+			payload (str): buffered results payload
+		"""
 		log_info('results')
 
 		commit_sha, res = payload[1:].split(msg['DELIMITER'])

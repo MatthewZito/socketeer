@@ -14,6 +14,11 @@ from .handler import DispatchHandler
 from .Threading_TCP_srv import ThreadingTCPSrv
 
 def serve():
+	"""Dispatcher
+	Handle correspondence between threaded task-runners and observer srv requests
+
+	Spawn task redistributor and runner liveness eval threads 
+	"""
 	args = get_args()
 	host, port = args.dispatch.split(msg['DELIMITER'])
 	
