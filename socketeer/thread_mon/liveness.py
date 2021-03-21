@@ -31,6 +31,6 @@ def check_liveness(srv):
                     )
 
                     manage_tasks_pool(srv, runner)
-            
+
             except error:
                 manage_tasks_pool(srv, runner)

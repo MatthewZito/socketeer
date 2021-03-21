@@ -42,12 +42,12 @@ def serve():
                     attempts += 1
                     runner_port = runner_port + attempts
                     continue
-                
+
                 else:
                     raise e
         else:
             raise Exception('Exhausted allocated port range')
-    
+
     # use given port
     else:
         runner_port = int(args.port)
@@ -69,7 +69,7 @@ def serve():
         int(srv.dispatch_srv['port']),
         msg['REGISTER'] + msg['DELIMITER'] + (runner_host, runner_port)
     )
-        
+
     if response != msg['OK']:
         raise Exception('Unable to register via dispatch srv')
 

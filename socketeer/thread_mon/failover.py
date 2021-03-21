@@ -40,6 +40,6 @@ def redistribute_orphan_task(srv):
                 level='warn',
                 message='Remaining tasks: ' + srv.pending_commits
             )
-            
+
             deploy_tasks(srv, sha)
             sleep(6)

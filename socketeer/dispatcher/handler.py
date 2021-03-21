@@ -37,12 +37,12 @@ class DispatchHandler(BaseRequestHandler):
         if not cmd_grp:
             self.request.sendall('Invalid command')
             return
-        
+
         directive, payload = cmd_grp.groups()
 
         if directive == msg['STATUS']:
             self.dispatch_status_chk()
-        
+
         elif directive == msg['REGISTER']:
             self.dispatch_registrar(payload)
 
@@ -69,7 +69,7 @@ class DispatchHandler(BaseRequestHandler):
             payload (str): a payload containing the pending task-runner thread's host, port
         """
         log_info('register')
-        
+
         host, port = findall(r':(\w*)', payload)
 
         self.server.runners.append({
@@ -113,7 +113,7 @@ class DispatchHandler(BaseRequestHandler):
 
         if msg_len > remaining_buffer:
             self.data += self.request.recv(msg_len - remaining_buffer).strip()
-        
+
         del self.server.dispatched_commits[commit_sha]
 
         if not path.exists(result_f):

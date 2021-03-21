@@ -7,7 +7,7 @@ class ThreadingTCPSrv(ThreadingMixIn, TCPServer):
         ThreadingMixIn (tuple)
         TCPServer (class): Socket-server base class
     """
-    # store dispatch srv conn info 
+    # store dispatch srv conn info
     dispatch_srv = None
     # trace last conn from dispatch srv
     last_conn = None

@@ -14,4 +14,4 @@ class ThreadingTCPSrv(ThreadingMixIn, TCPServer):
     # track commits for which tasks have been dispatched
     dispatched_commits = {}
     # track commits for which tasks have yet to be dispatched
-    pending_commits = [] 
+    pending_commits = []

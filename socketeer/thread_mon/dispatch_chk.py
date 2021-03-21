@@ -25,7 +25,7 @@ def dispatch_chk(srv):
 
                 srv.shutdown()
                 return
-            
+
         except socket.error as e:
             log(
                 level='error',

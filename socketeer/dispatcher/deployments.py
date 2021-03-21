@@ -6,7 +6,7 @@ def deploy_tasks(srv, commit_sha):
     """Deploy tasks for given commit shasum
 
     Args:
-        srv: dispatch server instance 
+        srv: dispatch server instance
         commit_sha (str): commit shasum / id correlated to given task
     """
     while True:
@@ -33,5 +33,5 @@ def deploy_tasks(srv, commit_sha):
                 if commit_sha in srv.pending_commits:
                     srv.pending_commits.remove(commit_sha)
                 return
-                
+
         sleep(9)

@@ -35,7 +35,7 @@ def poll ():
         # persists commit SHA in tmp file in cwd if applicable
         try:
             subprocess.check_output([
-                script_path, 
+                script_path,
                 repo
             ])
 
@@ -43,13 +43,13 @@ def poll ():
             if ex.errno == 2:
                 raise FileNotFoundError(f'{script_path} was not found')
             raise Exception(
-                'An I/O error occurred ' + 
+                'An I/O error occurred ' +
                 ex
             )
 
         except subprocess.CalledProcessError as ex:
             raise Exception(
-                'Unable to update and observe repository ' + 
+                'Unable to update and observe repository ' +
                 ex.output.decode('utf-8', errors='ignore')
             )
 
@@ -58,16 +58,16 @@ def poll ():
             try:
                 # check dispatch srv liveness
                 response = broadcast(
-                    host, 
+                    host,
                     int(port),
                     msg['STATUS'] + msg['DELIMITER']
                 )
-            
+
             except socket.error as ex:
                 raise ConnectionError(
                     'Unable to ping dispatch srv'
                 )
-      
+
             if response == msg['OK']:
                 # dispatch srv is live
                 commit_sha = ''
@@ -79,18 +79,18 @@ def poll ():
                         int(port),
                         msg['DISPATCH'] + msg['DELIMITER'] + commit_sha
                     )
-                
+
                     if response != msg['OK']:
                         raise ConnectionError(
-                            'Unable to broadcast to dispatch srv ' + 
+                            'Unable to broadcast to dispatch srv ' +
                             response
                         )
 
                     log(
-                        level='success', 
+                        level='success',
                         message=f'Dispatch directive successfully broadcast'
                     )
-            
+
             else:
                 raise ConnectionError(
                     'Unable to connect to dispatch srv ' +

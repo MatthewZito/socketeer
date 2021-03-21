@@ -17,11 +17,11 @@ def serve():
     """Dispatcher
     Handle correspondence between threaded task-runners and observer srv requests
 
-    Spawn task redistributor and runner liveness eval threads 
+    Spawn task redistributor and runner liveness eval threads
     """
     args = get_args()
     host, port = args.dispatch.split(msg['DELIMITER'])
-    
+
     srv = ThreadingTCPSrv(
         (host, int(port)),
         DispatchHandler
@@ -48,7 +48,7 @@ def serve():
         heart_beat.start()
         redistributor.start()
         srv.serve_forever()
-    
+
     except (KeyboardInterrupt, Exception):
         srv.dead = True
         heart_beat.join()

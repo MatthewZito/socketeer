@@ -24,8 +24,8 @@ parser.add_argument(
 )
 
 parser.add_argument(
-    'repository', 
-    metavar='REPO', 
+    'repository',
+    metavar='REPO',
     type=str,
     help='path to the observed repository'
 )
