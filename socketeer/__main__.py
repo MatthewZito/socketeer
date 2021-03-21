@@ -15,6 +15,6 @@ if __name__ == '__main__':
 
     except Exception as ex:
         log(
-            level='error', 
+            level='error',
             message=ex
         )
