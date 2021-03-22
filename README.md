@@ -2,6 +2,12 @@
 
 ## Usage
 
+Launch the observatory: `python3 -m socketeer --dispatch=hostname:port /abs/path/to/git/repo`
+
+On another machine (or in another shell), launch the dispatch service: `python3 -m socketeer dispatcher --host=hostname --port=portnum`
+
+Finally, initialize the Threading service: `python3 -m socketeer runner --host=hostname --port=portnum --dispatch=hostname:port /abs/path/to/git/repo`
+
 ## Architecture
 
 Socketeer observes a target git repository for commit SHA changes. When the main branch's HEAD changes, a message is broadcast to all deployments (task-runners), which then execute a series of pre-defined tasks. The runners then report the results of these tasks back to the dispatcher.
@@ -10,7 +16,7 @@ Socketeer observes a target git repository for commit SHA changes. When the main
 
 ### Observer
 
-The observer component polls the target repository, notifying a dispatch service of new commit SHAs. 
+The observer component polls the target repository, notifying a dispatch service of new commit SHAs.
 
 ### Dispatch Srv
 
@@ -20,7 +26,7 @@ The dispatch service delegates tasks. It listens for requests for task-runners f
 
 The redistribution and task-runner monitor each run on their own dedicated threads, for which the dispatcher provides failover redundancy.
 
-The task-runner monitor pings each registered task runner to ensure liveness. If a runner has become unresponsive - and what constitutes as 'responsive' here is a configurable timeout period - the runner is removed from the pool and its task ID is reassigned to the next available thread. 
+The task-runner monitor pings each registered task runner to ensure liveness. If a runner has become unresponsive - and what constitutes as 'responsive' here is a configurable timeout period - the runner is removed from the pool and its task ID is reassigned to the next available thread.
 
 The redistributor thread polls the tasks pool for new commit SHAs and assigns new work as needed.
 

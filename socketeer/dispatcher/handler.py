@@ -3,7 +3,8 @@ import os
 import re
 import socketserver
 
-from ..utils.constants import MESSAGES as msg, \
+from ..utils.constants import \
+    MESSAGES as msg, \
     TASK_RESULTS as result_f
 from ..utils.io import log
 
