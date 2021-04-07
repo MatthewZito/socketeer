@@ -1,18 +1,18 @@
-# Socketeer: A multi-threaded, fault-tolerant task-runner for continuous integration
+# Surveil: A multi-threaded, fault-tolerant task-runner for continuous integration
 
 ## Usage
 
-Launch the observatory: `python3 -m socketeer --dispatch=hostname:port /abs/path/to/git/repo`
+Launch the observatory: `python3 -m surveil --dispatch=hostname:port /abs/path/to/git/repo`
 
-On another machine (or in another shell), launch the dispatch service: `python3 -m socketeer dispatcher --host=hostname --port=portnum`
+On another machine (or in another shell), launch the dispatch service: `python3 -m surveil dispatcher --host=hostname --port=portnum`
 
-Finally, initialize the Threading service: `python3 -m socketeer runner --host=hostname --port=portnum --dispatch=hostname:port /abs/path/to/git/repo`
+Finally, initialize the Threading service: `python3 -m surveil runner --host=hostname --port=portnum --dispatch=hostname:port /abs/path/to/git/repo`
 
 ## Architecture
 
-Socketeer observes a target git repository for commit SHA changes. When the main branch's HEAD changes, a message is broadcast to all deployments (task-runners), which then execute a series of pre-defined tasks. The runners then report the results of these tasks back to the dispatcher.
+Surveil observes a target git repository for commit SHA changes. When the main branch's HEAD changes, a message is broadcast to all deployments (task-runners), which then execute a series of pre-defined tasks. The runners then report the results of these tasks back to the dispatcher.
 
-![Architecture Control Flow](https://github.com/MatthewZito/socketeer/blob/master/docs/socketeer.png)
+![Architecture Control Flow](https://github.com/MatthewZito/surveil/blob/master/docs/surveil.png)
 
 ### Observer
 
@@ -34,4 +34,4 @@ The redistributor thread polls the tasks pool for new commit SHAs and assigns ne
 
 Python's SocketServer TCPServer out-of-the-box can only handle a single request at any given time. If the dispatch service needs to talk to more than one task-runner, for example, using this default would mean synchronous, blocking I/O.
 
-In its stead, Socketeer uses a modified socket server that handles threading; a new process is spawned for each inbound connection.
+In its stead, Surveil uses a modified socket server that handles threading; a new process is spawned for each inbound connection.
